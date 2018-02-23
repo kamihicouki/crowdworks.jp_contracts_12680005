@@ -1,0 +1,39 @@
+# Ansible managed
+
+# ACLS
+acl CONNECT method CONNECT
+auth_param basic program /usr/lib64/squid/ncsa_auth /etc/squid/passwd
+auth_param basic realm Squid Basic Authentication
+acl password proxy_auth REQUIRED
+http_access allow password
+auth_param basic casesensitibe off
+
+# Local Networks
+acl localnet src 10.0.0.0/8
+acl localnet src 172.16.0.0/16
+acl localnet src 192.168.0.0/16
+
+acl Safe_ports port 21 #ftp
+acl Safe_ports port 70 #gopher
+acl Safe_ports port 80 #http
+acl Safe_ports port 210 #wais
+acl Safe_ports port 280 #http-mgmt
+acl Safe_ports port 443 #https
+acl Safe_ports port 488 #gss-http
+acl Safe_ports port 591 #filemaker
+acl Safe_ports port 777 #multiling http
+acl Safe_ports port 1025-65535 #unregistered ports
+
+
+
+
+http_port {{ proxy_port_ }}
+
+acl NOCACHE src all
+cache deny NOCACHE
+
+visible_hostname unkown
+forwarded_for off
+request_header_access X-FORWARDED-FOR deny all
+request_header_access Via deny all
+request_header_access Cache-Control deny all
