@@ -5,3 +5,9 @@
     state: "present"
   become: true
   when: ansible_distribution != "Fedora"
+
+- name: Install the httpd-tools
+  yum:
+    name: httpd-tools
+    state: present
+  when: ansible_distribution != "Fedora"
